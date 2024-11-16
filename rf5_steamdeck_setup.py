@@ -16,7 +16,7 @@ def confirm(text):
 
 RF5_APPID = 1702330
 GAMEPATH_INTERNAL = "/home/deck/.local/share/Steam/steamapps/common/Rune Factory 5"
-CTRLFIX_URL = "https://github.com/Rose22/runefactory5_controllerfix/releases/download/0.1/rf5_controllerfix.zip"
+CTRLFIX_URL = "https://github.com/Rose22/runefactory5_steamdeck_fix/releases/download/ctrlfix/rf5_controllerfix.zip"
 RF5FIX_URL = "https://github.com/Lyall/RF5Fix/releases/download/v0.1.5/RF5Fix_v0.1.5.zip"
 
 RF5FIX_CFG = """
