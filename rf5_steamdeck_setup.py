@@ -195,7 +195,6 @@ if not steam_uid:
     sys.exit("Error: Couldn't find your save path! please make sure you have at least one saved game.")
 
 print(f"rune factory 5 install path: {rf5_game_path}")
-print(f"rune factory 5 compatdata path: {rf5_pfx_path}")
 print()
 
 if not confirm("Everything looking good?"):
@@ -204,6 +203,7 @@ if not confirm("Everything looking good?"):
 print()
 
 print("Install rf5fix to get a higher resolution, the steam deck's 16:10 aspect ratio, better framerate, better draw distance, and all that good stuff!")
+rf5fix_installed = False
 if confirm("install rf5fix?"):
     os.system(f"wget \"{RF5FIX_URL}\" -O /tmp/rf5fix.zip")
     os.system(f"unzip -o /tmp/rf5fix.zip -d \"{rf5_game_path}\"")
@@ -215,20 +215,27 @@ if confirm("install rf5fix?"):
     print("rf5fix installed.")
     print()
 
+    rf5fix_installed = True
+
     os.remove("/tmp/rf5fix.zip")
 
 print("""
 DISCLAIMER:
 
-To get proper controller support on Steam Deck in Rune Factory 5, sadly, we need to hack the game in a very drastic way. This method uses a Steam Emulator called Goldberg, to essentially fool the game into thinking an Xbox controller is connected. Goldberg is normally used by pirates to crack steam protections, so this is a bit risky, and you'll have to consider whether the risk is worth it. I can't guarantee how safe these patched files are, as i've taken these directly from Kentun's guide, and just removed the DLC from them (by blanking out the DLC.txt files).
+To get proper controller support on Steam Deck in Rune Factory 5, sadly, we need to hack the game in a very drastic way. This method uses a Steam Emulator called Goldberg, to essentially fool the game into thinking an Xbox controller is connected. Goldberg is normally used by pirates to crack steam protections, so this is a bit risky, and you'll have to consider whether the risk is worth it. I can't guarantee how safe these patched files are, as i've taken these directly from Kentun's guide, and just removed the DLC from them (by blanking out the DLC.txt files). Don't worry though, this won't get you banned from Steam.
 
 Note that Goldberg disables Steam Achievements in the game, but this is temporary. If you do a clean install of the game without goldberg, achievements will be working again.
 """)
-if confirm("install controller icon fix (Goldberg)?"):
-    print("Backing up game files..")
+if confirm("install controller fix?"):
     prevdir = os.getcwd()
+
     os.chdir(rf5_game_path)
-    os.system("zip -q prepatched_backup.zip \"Rune Factory 5.exe\" \"steam_api64.dll\" \"Rune Factory 5_Data/Plugins/x86_64/steam_api64.dll\"")
+    if not os.path.isfile("prepatch_backup.zip"):
+        print("Backing up game files..")
+        os.system("zip -qr prepatch_backup.zip \"Rune Factory 5.exe\" \"steam_api64.dll\" \"Rune Factory 5_Data/Plugins/x86_64/\"")
+    else:
+        print("Unpatched game files were already backed up. Skipping!")
+    os.chdir(prevdir)
 
     os.system(f"wget \"{CTRLFIX_URL}\" -O /tmp/ctrlfix.zip")
     os.system(f"unzip -o /tmp/ctrlfix.zip -d \"{rf5_game_path}\"")
@@ -253,9 +260,19 @@ if confirm("install controller icon fix (Goldberg)?"):
             f.write(value)
 
     print("Goldberg installed.")
-    print("A backup of your unpatched gamefiles can be found as prepatched_backup.zip in the Rune Factory 5 game folder")
+    print("A backup of your unpatched gamefiles can be found as prepatch_backup.zip in the Rune Factory 5 game folder")
 
     os.remove("/tmp/ctrlfix.zip")
+
+if rf5fix_installed:
+    print("""
+Since you installed rf5fix, there is one more thing you need to do.
+Please head to your steam library and find Rune Factory 5 in the list of games. Right click it, select Properties, then paste this into the Launch Options:
+
+WINEDLLOVERRIDES="winhttp=n,b" %command%
+
+You can also find this in the steam guide related to this script, if you're having trouble copying and pasting it from this console window.
+""")
 
 print()
 print("Setup done!")
