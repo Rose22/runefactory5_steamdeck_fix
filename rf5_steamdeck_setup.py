@@ -203,7 +203,7 @@ if not confirm("Everything looking good?"):
 
 print()
 
-print("If you want a higher resolution, the steam deck's 16:10 aspect ratio, better framerate, better draw distance, and all that good stuff, then you'll want rf5fix.")
+print("Install rf5fix to get a higher resolution, the steam deck's 16:10 aspect ratio, better framerate, better draw distance, and all that good stuff!")
 if confirm("install rf5fix?"):
     os.system(f"wget \"{RF5FIX_URL}\" -O /tmp/rf5fix.zip")
     os.system(f"unzip -o /tmp/rf5fix.zip -d \"{rf5_game_path}\"")
@@ -218,7 +218,9 @@ if confirm("install rf5fix?"):
     os.remove("/tmp/rf5fix.zip")
 
 print("""
-To get controller icons to show up properly in Rune Factory 5, sadly, we need to hack the game in a very drastic way. Kentun's method uses a Steam Emulator called Goldberg, to essentially fool the game into thinking an Xbox controller is connected. Goldberg is normally used by pirates to crack steam protections, so this is a bit risky, and you'll have to consider whether the risk is worth it. I can't guarantee how safe these patched files are, as i've taken these directly from Kentun's guide, and just removed the DLC from them (by blanking out the DLC.txt files).
+DISCLAIMER:
+
+To get proper controller support on Steam Deck in Rune Factory 5, sadly, we need to hack the game in a very drastic way. This method uses a Steam Emulator called Goldberg, to essentially fool the game into thinking an Xbox controller is connected. Goldberg is normally used by pirates to crack steam protections, so this is a bit risky, and you'll have to consider whether the risk is worth it. I can't guarantee how safe these patched files are, as i've taken these directly from Kentun's guide, and just removed the DLC from them (by blanking out the DLC.txt files).
 
 Note that Goldberg disables Steam Achievements in the game, but this is temporary. If you do a clean install of the game without goldberg, achievements will be working again.
 """)
